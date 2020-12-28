@@ -31,10 +31,6 @@ func setup(c *caddy.Controller) error {
 		return P
 	})
 
-	c.OnStartup(func() error {
-		return nil
-	})
-
 	for i := range upstreams {
 		u := upstreams[i]
 		c.OnStartup(func() error {
