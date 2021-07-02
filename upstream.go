@@ -53,7 +53,10 @@ func NewStaticUpstream(c *caddyfile.Dispenser) (Upstream, error) {
 	if !c.Args(&upstream.from) {
 		return upstream, c.ArgErr()
 	}
-	upstream.from = plugin.Host(upstream.from).Normalize()
+	froms := plugin.Host(upstream.from).NormalizeExact()
+	if len(froms) > 0 {
+		upstream.from = froms[0]
+	}
 
 	to := c.RemainingArgs()
 	if len(to) == 0 {
