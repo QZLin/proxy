@@ -12,10 +12,6 @@ import (
 	"github.com/coredns/coredns/plugin/pkg/tls"
 	"github.com/missdeer/proxy/healthcheck"
 
-<<<<<<< HEAD
-=======
-	"github.com/coredns/caddy/caddyfile"
->>>>>>> e865259b26bf612690d989e932913f1b5c2b34fe
 	"github.com/miekg/dns"
 )
 
