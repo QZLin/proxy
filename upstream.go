@@ -10,8 +10,12 @@ import (
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/pkg/parse"
 	"github.com/coredns/coredns/plugin/pkg/tls"
-	"github.com/coredns/proxy/healthcheck"
+	"github.com/missdeer/proxy/healthcheck"
 
+<<<<<<< HEAD
+=======
+	"github.com/coredns/caddy/caddyfile"
+>>>>>>> e865259b26bf612690d989e932913f1b5c2b34fe
 	"github.com/miekg/dns"
 )
 
@@ -53,7 +57,10 @@ func NewStaticUpstream(c *caddyfile.Dispenser) (Upstream, error) {
 	if !c.Args(&upstream.from) {
 		return upstream, c.ArgErr()
 	}
-	upstream.from = plugin.Host(upstream.from).Normalize()
+	froms := plugin.Host(upstream.from).NormalizeExact()
+	if len(froms) > 0 {
+		upstream.from = froms[0]
+	}
 
 	to := c.RemainingArgs()
 	if len(to) == 0 {

@@ -5,6 +5,11 @@ import (
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
 	clog "github.com/coredns/coredns/plugin/pkg/log"
+<<<<<<< HEAD
+=======
+
+	"github.com/coredns/caddy"
+>>>>>>> e865259b26bf612690d989e932913f1b5c2b34fe
 )
 
 var log = clog.NewWithPlugin("proxy")

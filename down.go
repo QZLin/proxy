@@ -3,7 +3,7 @@ package proxy
 import (
 	"sync/atomic"
 
-	"github.com/coredns/proxy/healthcheck"
+	"github.com/missdeer/proxy/healthcheck"
 )
 
 // Default CheckDown functions for use in the proxy plugin.

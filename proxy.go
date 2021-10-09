@@ -12,7 +12,7 @@ import (
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/metrics"
 	"github.com/coredns/coredns/request"
-	"github.com/coredns/proxy/healthcheck"
+	"github.com/missdeer/proxy/healthcheck"
 
 	"github.com/miekg/dns"
 	ot "github.com/opentracing/opentracing-go"
@@ -98,8 +98,6 @@ func (p Proxy) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (
 				child.Finish()
 			}
 
-			taperr := toDnstap(ctx, host.Name, upstream.Exchanger(), state, reply, start)
-
 			if backendErr == nil {
 
 				// Check if the reply is correct; if not return FormErr.
@@ -107,14 +105,14 @@ func (p Proxy) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (
 					formerr := new(dns.Msg)
 					formerr.SetRcode(state.Req, dns.RcodeFormatError)
 					w.WriteMsg(formerr)
-					return 0, taperr
+					return 0, errors.New("RcodeFormatError")
 				}
 
 				w.WriteMsg(reply)
 
 				RequestDuration.WithLabelValues(metrics.WithServer(ctx), state.Proto(), upstream.Exchanger().Protocol(), familyToString(state.Family()), host.Name).Observe(time.Since(start).Seconds())
 
-				return 0, taperr
+				return 0, errors.New("RcodeFormatError")
 			}
 
 			// A "ANY isc.org" query is being dropped by ISC's nameserver, we see this as a i/o timeout, but
